@@ -1,0 +1,20 @@
+{
+    "name": "pierreminiggio/tiktok-account-video-informations-saver",
+    "authors": [
+        {
+            "name": "Pierre MINIGGIO",
+            "email": "pierre@miniggiodev.fr"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PierreMiniggio\\TiKTokAccountVideoInformationsSaver\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "pierreminiggio/database-fetcher": "^1.0"
+    }
+}
