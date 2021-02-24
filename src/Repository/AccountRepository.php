@@ -7,7 +7,8 @@ use PierreMiniggio\DatabaseFetcher\DatabaseFetcher;
 class AccountRepository
 {
     public function __construct(private DatabaseFetcher $fetcher)
-    {}
+    {
+    }
 
     public function findAll(): array
     {
