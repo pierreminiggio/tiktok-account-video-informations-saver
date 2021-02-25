@@ -10,7 +10,7 @@ class VideoRepository
     {
     }
 
-    public function insertVideoIfNeeded(int $accountId, string $tikTokId, string $videoUrl): bool
+    public function insertVideoIfNeeded(int $accountId, string $tikTokId, string $videoUrl, string $legend): bool
     {
         $res = $this->fetcher->query(
             $this->fetcher
@@ -29,14 +29,15 @@ class VideoRepository
             $this->fetcher
                 ->createQuery('tiktok_video')
                 ->insertInto(
-                    'account_id, tiktok_id, tiktok_url',
-                    ':account_id, :tiktok_id, :tiktok_url'
+                    'account_id, tiktok_id, tiktok_url, legend',
+                    ':account_id, :tiktok_id, :tiktok_url, :legend'
                 )
             ,
             [
                 'account_id' => $accountId,
                 'tiktok_id' => $tikTokId,
-                'tiktok_url' => $videoUrl
+                'tiktok_url' => $videoUrl,
+                'legend' => $legend
             ]
         );
 

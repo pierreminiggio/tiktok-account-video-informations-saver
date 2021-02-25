@@ -1,6 +1,0 @@
-{
-  "type": "module",
-  "dependencies": {
-    "@pierreminiggio/tiktok-video-lister": "github:pierreminiggio/tiktok-video-lister"
-  }
-}

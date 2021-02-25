@@ -38,32 +38,42 @@ class App
         foreach ($accounts as $account) {
             $accountName = $account['tiktok_name'];
             echo PHP_EOL . PHP_EOL . 'Checking account ' . $accountName . '...';
-            $scrapingResult = shell_exec('node scrape.js ' . escapeshellarg($accountName));
+
+            $curl = curl_init($account['api_url']);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            $curlResponse = curl_exec($curl);
             
-            if (empty($scrapingResult)) {
+            if (empty($curlResponse)) {
                 echo PHP_EOL . PHP_EOL . 'No video or error for ' . $accountName . ' !';
 
                 continue;
             }
 
-            $jsonResult = json_decode($scrapingResult, true);
+            $curlJsonResponse = json_decode($curlResponse, true);
 
-            if (empty($jsonResult)) {
+            if (empty($curlJsonResponse)) {
                 echo PHP_EOL . PHP_EOL . 'No video or JSON error for ' . $accountName . ' !';
 
                 continue;
             }
 
-            $videoLinks = array_reverse($jsonResult);
+            if (! isset($curlJsonResponse['itemList'])) {
+                echo PHP_EOL . PHP_EOL . 'No bad item list for ' . $accountName . ' !';
 
-            echo PHP_EOL . PHP_EOL . 'Inserting the ' . count($videoLinks) . ' videos if needed !' . PHP_EOL;
+                continue;
+            }
+
+            $videos = array_reverse($curlJsonResponse['itemList']);
+
+            echo PHP_EOL . PHP_EOL . 'Inserting the ' . count($videos) . ' videos if needed !' . PHP_EOL;
             
-            foreach ($videoLinks as $videoLink) {
-                $videoId = substr($videoLink, strlen('https://www.tiktok.com/@' . $accountName . '/video/'));
+            foreach ($videos as $video) {
+                $videoId = $video['id'];
                 $inserted = $videoRepository->insertVideoIfNeeded(
                     (int) $account['id'],
                     $videoId,
-                    $videoLink
+                    'https://www.tiktok.com/@pierreminiggio/video/' . $videoId,
+                    $video['desc']
                 );
                 echo PHP_EOL . ($inserted
                     ? ('Video ' . $videoId . ' inserted !')
@@ -72,6 +82,8 @@ class App
             }
 
             echo PHP_EOL . PHP_EOL . 'Done for account ' . $accountName . ' !';
+
+            curl_close($curl);
         }
 
         return $code;

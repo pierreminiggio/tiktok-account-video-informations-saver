@@ -36,6 +36,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `tiktok_account` (
   `id` int(11) NOT NULL,
   `tiktok_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `api_url` text NOT NULL COMMENT 'Example: https://m.tiktok.com/api/post/item_list/?aid=1988&count=30&cursor=now&secUid=MS4wLjABAAAA7xnwUIcPFptmOrop7D8ycz5abNlPN1C9dKGDNX296krcgjGr-ePOIyksaH4Bi2Nn',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -50,9 +51,11 @@ CREATE TABLE `tiktok_video` (
   `account_id` INT NOT NULL,
   `tiktok_id` varchar(255) NOT NULL,
   `tiktok_url` varchar(255) NOT NULL,
+  `legend` text NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ALTER TABLE `tiktok_video` CHANGE `legend` `legend` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
 
 --
 -- Index pour la table `tiktok_account`
