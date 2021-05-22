@@ -40,7 +40,13 @@ class App
             echo PHP_EOL . PHP_EOL . 'Checking account ' . $accountName . '...';
 
             $curl = curl_init($account['api_url']);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt_array($curl, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json',
+                    'Authorization: Bearer ' . $account['api_token']
+                ]
+            ]);
             $curlResponse = curl_exec($curl);
             
             if (empty($curlResponse)) {
@@ -57,23 +63,23 @@ class App
                 continue;
             }
 
-            if (! isset($curlJsonResponse['itemList'])) {
-                echo PHP_EOL . PHP_EOL . 'No bad item list for ' . $accountName . ' !';
-
-                continue;
-            }
-
-            $videos = array_reverse($curlJsonResponse['itemList']);
+            $videos = array_reverse($curlJsonResponse);
 
             echo PHP_EOL . PHP_EOL . 'Inserting the ' . count($videos) . ' videos if needed !' . PHP_EOL;
             
-            foreach ($videos as $video) {
+            foreach ($videos as $videoIndex => $video) {
+
+                if (! isset($video['id']) || ! isset($video['caption']) || ! isset($video['url'])) {
+                    echo PHP_EOL . 'Missing data for video ' . $videoIndex;
+                    continue;
+                }
+
                 $videoId = $video['id'];
                 $inserted = $videoRepository->insertVideoIfNeeded(
                     (int) $account['id'],
                     $videoId,
-                    'https://www.tiktok.com/@pierreminiggio/video/' . $videoId,
-                    $video['desc']
+                    $video['url'],
+                    $video['caption']
                 );
                 echo PHP_EOL . ($inserted
                     ? ('Video ' . $videoId . ' inserted !')

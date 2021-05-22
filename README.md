@@ -23,10 +23,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Base de données :  `channel_storage`
---
-
 -- --------------------------------------------------------
 
 --
@@ -36,7 +32,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `tiktok_account` (
   `id` int(11) NOT NULL,
   `tiktok_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
-  `api_url` text NOT NULL COMMENT 'Example: https://m.tiktok.com/api/post/item_list/?aid=1988&count=30&cursor=now&secUid=MS4wLjABAAAA7xnwUIcPFptmOrop7D8ycz5abNlPN1C9dKGDNX296krcgjGr-ePOIyksaH4Bi2Nn',
+  `api_url` text NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -83,6 +79,8 @@ ALTER TABLE `tiktok_account`
 --
 ALTER TABLE `tiktok_video`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `tiktok_account` ADD `api_token` VARCHAR(255) NOT NULL AFTER `api_url`;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
