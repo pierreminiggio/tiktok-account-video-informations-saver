@@ -3,6 +3,26 @@
 > **Developers and AI agents: read [AGENTS.md](AGENTS.md) before making any change.**
 > It defines how features are developed (TDD) and how changes are delivered (small increments as zip files).
 
+## Usage
+
+Check every active account and save its new videos :
+
+```bash
+php main.php
+```
+
+Retire an account (it is then no longer checked, its saved videos are kept ; retiring is final) :
+
+```bash
+php retire.php <tiktok_name>
+```
+
+## Tests
+
+```bash
+composer test
+```
+
 ## Migration
 
 The full database schema is the SQL below. Every schema change is **appended at the end of this block**

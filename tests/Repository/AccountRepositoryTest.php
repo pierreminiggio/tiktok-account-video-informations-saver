@@ -45,4 +45,35 @@ class AccountRepositoryTest extends TestCase
 
         $this->repository->findActive();
     }
+
+    public function testFindByNameReturnsTheAccountsWithThisName(): void
+    {
+        $rows = [['id' => 3, 'retired_at' => null]];
+
+        $this->connection
+            ->expects(self::once())
+            ->method('query')
+            ->with(
+                'SELECT id,retired_at FROM tiktok_account WHERE tiktok_name = :tiktok_name',
+                ['tiktok_name' => 'someone']
+            )
+            ->willReturn($rows)
+        ;
+
+        self::assertSame($rows, $this->repository->findByName('someone'));
+    }
+
+    public function testRetireSetsTheRetirementDateOnlyIfTheAccountIsNotAlreadyRetired(): void
+    {
+        $this->connection
+            ->expects(self::once())
+            ->method('exec')
+            ->with(
+                'UPDATE tiktok_account SET retired_at = NOW() WHERE id = :id AND retired_at IS NULL',
+                ['id' => 3]
+            )
+        ;
+
+        $this->repository->retire(3);
+    }
 }
