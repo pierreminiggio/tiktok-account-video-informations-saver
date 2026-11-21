@@ -1,6 +1,12 @@
 # tiktok-account-video-informations-saver
 
-Migration :
+> **Developers and AI agents: read [AGENTS.md](AGENTS.md) before making any change.**
+> It defines how features are developed (TDD) and how changes are delivered (small increments as zip files).
+
+## Migration
+
+The full database schema is the SQL below. Every schema change is **appended at the end of this block**
+(see the "Database migrations" section of [AGENTS.md](AGENTS.md)).
 
 ```sql
 -- phpMyAdmin SQL Dump

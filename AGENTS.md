@@ -10,7 +10,21 @@ PHP CLI script (`main.php` → `src/App.php`) that calls an API for each TikTok 
 - Namespace: `PierreMiniggio\TiKTokAccountVideoInformationsSaver\` (PSR-4, `src/`)
 - DB access goes through `pierreminiggio/database-fetcher`, wrapped in repositories (`src/Repository/`)
 - `config.php` is git-ignored; `config_example.php` is the committed template
-- The DB schema/migration is documented in `README.md`
+- The DB schema and its migrations are in `README.md` (see "Database migrations" below)
+- `README.md` points to this file; keep that pointer in place
+
+## Database migrations
+
+All database migrations live in the SQL block of the "Migration" section of `README.md`. There is no separate
+migrations folder.
+
+- A schema change is a new SQL statement **appended at the end of that block**, after the last existing
+  statement and before the closing `/*!40101 SET CHARACTER_SET_CLIENT ... */` restore lines.
+- Existing statements are never edited or reordered: the block is the history of the schema, and people who
+  already ran it only need to run the new statements.
+- Each new migration is preceded by a short SQL comment saying what it is for.
+- An increment that needs a migration includes the updated `README.md` and says in the chat which new
+  statement(s) the project owner has to run on the database.
 
 ## Development workflow: TDD
 
