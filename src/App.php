@@ -27,7 +27,7 @@ class App
         $channelRepository = new AccountRepository($databaseFetcher);
         $videoRepository = new VideoRepository($databaseFetcher);
 
-        $accounts = $channelRepository->findAll();
+        $accounts = $channelRepository->findActive();
 
         if (! $accounts) {
             echo 'No accounts';

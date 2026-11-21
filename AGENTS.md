@@ -42,6 +42,11 @@ Rules:
 - All tests must pass before an increment is delivered. Run the whole suite, not only the new tests.
 - Business logic should be testable without network or real database access: keep HTTP calls and DB access
   behind small classes (repositories, clients) that can be replaced by fakes in tests.
+- Tests use PHPUnit (`composer test` or `vendor/bin/phpunit`), live in `tests/`, and mirror the `src/` structure
+  (`src/Repository/AccountRepository.php` → `tests/Repository/AccountRepositoryTest.php`).
+- Repositories are tested with a real `DatabaseFetcher` built on a mocked `DatabaseConnection`, asserting the exact
+  SQL and parameters sent. There is no test database.
+- Code must stay compatible with PHP 8.0 (no intersection types, no `readonly`, no enums, etc.).
 - Keep the code style already used in the project (PSR-4, typed properties/returns, constructor promotion).
 
 ## Delivery workflow: small increments as zip files

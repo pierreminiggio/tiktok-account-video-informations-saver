@@ -88,6 +88,9 @@ ALTER TABLE `tiktok_video`
 
 ALTER TABLE `tiktok_account` ADD `api_token` VARCHAR(255) NOT NULL AFTER `api_url`;
 
+-- Retire an account: accounts with a retired_at date are no longer checked (retiring is final)
+ALTER TABLE `tiktok_account` ADD `retired_at` DATETIME NULL DEFAULT NULL AFTER `api_token`;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
