@@ -16,5 +16,8 @@
     },
     "require": {
         "pierreminiggio/database-fetcher": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
     }
 }
